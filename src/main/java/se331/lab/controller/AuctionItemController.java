@@ -21,17 +21,21 @@ public class AuctionItemController {
     @GetMapping("/auction-items")
     public ResponseEntity<?>  getAuctionItemsList(@RequestParam(value = "_limit", required = false)Integer pageSize,
                                                   @RequestParam(value = "_page", required = false)Integer pageNumber,
-                                                  @RequestParam(value = "description", required = false)String description){
-//        Page<AuctionItem> pageOutput = auctionItemService.getAuctionItems(pageSize, pageNumber);
+                                                  @RequestParam(value = "description", required = false)String description,
+                                                  @RequestParam(value = "type", required = false)String type){
         pageSize = pageSize == null ? auctionItemService.getAuctionItemSize() : pageSize;
         pageNumber = pageNumber == null ? 1 : pageNumber;
         Pageable pageable = PageRequest.of(pageNumber-1, pageSize);
 
         Page<AuctionItem> pageOutput;
-        if(description == null) {
-            pageOutput = auctionItemService.getAuctionItems(pageable);
-        }else{
+        if(description != null && type != null) {
+            pageOutput = auctionItemService.getAuctionItemsByDescriptionAndType(description, type, pageable);
+        } else if (description != null) {
             pageOutput = auctionItemService.getAuctionItemsByDescription(description, pageable);
+        } else if(type != null){
+            pageOutput = auctionItemService.getAuctionItemsByType(type, pageable);
+        }else{
+            pageOutput = auctionItemService.getAuctionItems(pageable);
         }
 
         HttpHeaders responseHeader = new HttpHeaders();

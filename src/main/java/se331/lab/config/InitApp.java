@@ -36,7 +36,7 @@ public class InitApp implements ApplicationListener<ApplicationReadyEvent> {
                 new AuctionSeed("Diamond Engagement Ring", "Jewelry", List.of(5000L, 5200L, 5500L, 6000L)),
                 new AuctionSeed("Signed Basketball Jersey", "Sports Memorabilia", List.of(400L, 600L, 700L)),
                 new AuctionSeed("MacBook Pro 16-inch", "Electronics", List.of(2000L, 2100L, 2300L)),
-                new AuctionSeed("Rare First Edition Book", "Books", List.of(900L, 1200L))
+                new AuctionSeed("Rare First Edition Book", "Books", List.of())
         );
 
         for (AuctionSeed seed: autionSeeds){
