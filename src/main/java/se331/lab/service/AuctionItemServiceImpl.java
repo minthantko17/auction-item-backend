@@ -38,6 +38,11 @@ public class AuctionItemServiceImpl implements AuctionItemService{
     }
 
     @Override
+    public Page<AuctionItem> getAuctionItemsBySuccessfulBidAmountLessThan(Long bidAmount, Pageable pageable){
+        return auctionItemDao.getAuctionItemsBySuccessfulBidAmountLessThan(bidAmount, pageable);
+    }
+
+    @Override
     public AuctionItem getAuctionItem(Long auctionItemId) {
         return auctionItemDao.getAuctionItem(auctionItemId);
     }

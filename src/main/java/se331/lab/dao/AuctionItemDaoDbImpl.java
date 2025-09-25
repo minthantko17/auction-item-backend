@@ -41,6 +41,11 @@ public class AuctionItemDaoDbImpl implements AuctionItemDao{
     }
 
     @Override
+    public Page<AuctionItem> getAuctionItemsBySuccessfulBidAmountLessThan(Long bidAmount, Pageable pageable){
+        return auctionItemRepository.findBySuccessfulBidAmountLessThan(bidAmount, pageable);
+    }
+
+    @Override
     public AuctionItem getAuctionItem(Long auctionItemId){
         return auctionItemRepository.findById(auctionItemId).orElse(null);
     }

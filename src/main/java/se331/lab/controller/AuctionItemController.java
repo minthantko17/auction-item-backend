@@ -21,6 +21,7 @@ public class AuctionItemController {
     @GetMapping("/auction-items")
     public ResponseEntity<?>  getAuctionItemsList(@RequestParam(value = "_limit", required = false)Integer pageSize,
                                                   @RequestParam(value = "_page", required = false)Integer pageNumber,
+                                                  @RequestParam(value = "successful_amount", required = false)Long successfulAmount,
                                                   @RequestParam(value = "description", required = false)String description,
                                                   @RequestParam(value = "type", required = false)String type){
         pageSize = pageSize == null ? auctionItemService.getAuctionItemSize() : pageSize;
@@ -28,7 +29,9 @@ public class AuctionItemController {
         Pageable pageable = PageRequest.of(pageNumber-1, pageSize);
 
         Page<AuctionItem> pageOutput;
-        if(description != null && type != null) {
+        if(successfulAmount != null && successfulAmount > 0){
+            pageOutput = auctionItemService.getAuctionItemsBySuccessfulBidAmountLessThan(successfulAmount, pageable);
+        } else if(description != null && type != null) {
             pageOutput = auctionItemService.getAuctionItemsByDescriptionAndType(description, type, pageable);
         } else if (description != null) {
             pageOutput = auctionItemService.getAuctionItemsByDescription(description, pageable);
