@@ -2,6 +2,8 @@ package se331.lab.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +20,20 @@ public class AuctionItemController {
 
     @GetMapping("/auction-items")
     public ResponseEntity<?>  getAuctionItemsList(@RequestParam(value = "_limit", required = false)Integer pageSize,
-                                                  @RequestParam(value = "_page", required = false)Integer pageNumber){
-        Page<AuctionItem> pageOutput = auctionItemService.getAuctionItems(pageSize, pageNumber);
+                                                  @RequestParam(value = "_page", required = false)Integer pageNumber,
+                                                  @RequestParam(value = "description", required = false)String description){
+//        Page<AuctionItem> pageOutput = auctionItemService.getAuctionItems(pageSize, pageNumber);
+        pageSize = pageSize == null ? auctionItemService.getAuctionItemSize() : pageSize;
+        pageNumber = pageNumber == null ? 1 : pageNumber;
+        Pageable pageable = PageRequest.of(pageNumber-1, pageSize);
+
+        Page<AuctionItem> pageOutput;
+        if(description == null) {
+            pageOutput = auctionItemService.getAuctionItems(pageable);
+        }else{
+            pageOutput = auctionItemService.getAuctionItemsByDescription(description, pageable);
+        }
+
         HttpHeaders responseHeader = new HttpHeaders();
         responseHeader.set("x-total-count", String.valueOf(pageOutput.getTotalElements()));
         return new ResponseEntity<>(pageOutput.getContent(), responseHeader, HttpStatus.OK);
