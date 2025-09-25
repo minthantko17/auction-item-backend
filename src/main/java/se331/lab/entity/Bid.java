@@ -1,5 +1,6 @@
 package se331.lab.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,5 +20,6 @@ public class Bid {
     Date dateTime;
 
     @ManyToOne
+    @JsonBackReference
     AuctionItem auctionItem;
 }

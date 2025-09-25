@@ -1,5 +1,6 @@
 package se331.lab.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,6 +22,7 @@ public class AuctionItem {
 
     @Builder.Default
     @OneToMany(mappedBy = "auctionItem")
+    @JsonManagedReference
     List<Bid> bids = new ArrayList<Bid>();
 
     @OneToOne
