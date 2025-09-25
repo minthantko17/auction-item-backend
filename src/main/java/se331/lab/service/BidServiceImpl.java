@@ -3,6 +3,7 @@ package se331.lab.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import se331.lab.dao.BidDao;
 import se331.lab.entity.Bid;
@@ -18,8 +19,8 @@ public class BidServiceImpl implements BidService{
     }
 
     @Override
-    public Page<Bid> getBids(Integer pageSize, Integer pageNumber) {
-        return bidDao.getBids(pageSize, pageNumber);
+    public Page<Bid> getBids(Pageable pageable) {
+        return bidDao.getBids(pageable);
     }
 
     @Override
